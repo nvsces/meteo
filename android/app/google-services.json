@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "411774325064",
+    "project_id": "meteo-b3f03",
+    "storage_bucket": "meteo-b3f03.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:411774325064:android:89e69b323eafd35caba37d",
+        "android_client_info": {
+          "package_name": "com.nvsces.meteo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "411774325064-ak1n6b4odcdinvgkld4cas4p5ava48mi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8T5G9tBY_gLKKVRS5RSMLNppql2GRBiE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "411774325064-ak1n6b4odcdinvgkld4cas4p5ava48mi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
