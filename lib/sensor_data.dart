@@ -8,6 +8,18 @@ class SensorData {
 
   DateTime time;
 
+  Map<String, dynamic> toMap() {
+    return {
+      'temp': temp,
+      'temp1': temp1,
+      'temp2': temp2,
+      'hum': hum,
+      'hum1': hum1,
+      'pres': pres,
+      'time': time.toString()
+    };
+  }
+
   SensorData.fromDatabase(String data) {
     List<String> listValue = data.split('q');
     temp = double.parse(listValue[0]);
@@ -17,5 +29,15 @@ class SensorData {
     hum1 = double.parse(listValue[4]);
     pres = double.parse(listValue[5]);
     time = DateTime.parse(listValue[6]);
+  }
+
+  SensorData.fromJson(Map<String, dynamic> data) {
+    temp = data['temp'];
+    temp1 = data['temp1'];
+    temp2 = data['temp2'];
+    hum = data['hum'];
+    hum1 = data['hum1'];
+    pres = data['pres'];
+    time = DateTime.parse(data['time']);
   }
 }

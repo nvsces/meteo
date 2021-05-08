@@ -6,11 +6,9 @@ import 'package:flutter/material.dart';
 // import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:meteo/card_data.dart';
 import 'package:meteo/charts_simple.dart';
-import 'package:meteo/graph_card.dart';
-import 'package:meteo/graph_painter.dart';
 import 'package:meteo/sensor_data.dart';
+import 'package:meteo/services/database.dart';
 
 import 'funs.dart';
 
@@ -113,6 +111,8 @@ class _MyHomePageState extends State<MyHomePage> {
           datas.add(SensorData.fromDatabase(element));
         });
       });
+      // перенаправление трафика с realtimeDatabase -> CloudFirestore
+      DatabaseService.trafficRedirection(datas);
     });
   }
 
