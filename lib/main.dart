@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:meteo/card_data.dart';
+import 'package:meteo/charts_simple.dart';
 import 'package:meteo/graph_card.dart';
 import 'package:meteo/graph_painter.dart';
 import 'package:meteo/sensor_data.dart';
@@ -18,6 +19,7 @@ Future<void> main() async {
   final FirebaseApp app = await Firebase.initializeApp();
   runApp(MaterialApp(
     home: MyHomePage(app: app),
+    //home: ItemDetailsPage(),
   ));
 }
 
@@ -34,61 +36,61 @@ class _MyHomePageState extends State<MyHomePage> {
   String text = 'value';
   List<SensorData> datas = [];
 
-  get listTemp1 {
-    List<double> graph = [];
+  List<TimeSeriesSales> get listTemp1 {
+    List<TimeSeriesSales> graph = [];
     datas.sort((a, b) {
       return a.time.compareTo(b.time);
     });
     datas.forEach((element) {
-      graph.add(element.temp1);
+      graph.add(TimeSeriesSales(element.time, element.temp1));
     });
 
     return graph;
   }
 
-  get listHum {
-    List<double> graph = [];
+  List<TimeSeriesSales> get listHum {
+    List<TimeSeriesSales> graph = [];
     datas.sort((a, b) {
       return a.time.compareTo(b.time);
     });
     datas.forEach((element) {
-      graph.add(element.hum);
+      graph.add(TimeSeriesSales(element.time, element.hum));
     });
 
     return graph;
   }
 
-  get listHum1 {
-    List<double> graph = [];
+  List<TimeSeriesSales> get listHum1 {
+    List<TimeSeriesSales> graph = [];
     datas.sort((a, b) {
       return a.time.compareTo(b.time);
     });
     datas.forEach((element) {
-      graph.add(element.hum1);
+      graph.add(TimeSeriesSales(element.time, element.hum1));
     });
 
     return graph;
   }
 
-  get listPress {
-    List<double> graph = [];
+  List<TimeSeriesSales> get listPress {
+    List<TimeSeriesSales> graph = [];
     datas.sort((a, b) {
       return a.time.compareTo(b.time);
     });
     datas.forEach((element) {
-      graph.add(element.pres);
+      graph.add(TimeSeriesSales(element.time, element.pres));
     });
 
     return graph;
   }
 
-  get listTem2 {
-    List<double> graph = [];
+  List<TimeSeriesSales> get listTem2 {
+    List<TimeSeriesSales> graph = [];
     datas.sort((a, b) {
       return a.time.compareTo(b.time);
     });
     datas.forEach((element) {
-      graph.add(element.temp2);
+      graph.add(TimeSeriesSales(element.time, element.temp2));
     });
 
     return graph;
@@ -124,14 +126,36 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
+      //body: ItemDetailsPage(listTemp1),
+
       body: Container(
         child: ListView(
           children: [
-            GraphCard(listTemp1),
-            GraphCard(listHum),
-            GraphCard(listHum1),
-            GraphCard(listPress),
-            GraphCard(listTem2),
+            ItemDetailsPage(
+              data: listTemp1,
+              title: 'Температура',
+            ),
+            ItemDetailsPage(
+              data: listHum,
+              title: 'Влажность',
+            ),
+            ItemDetailsPage(
+              data: listHum1,
+              title: 'Влажность 2',
+            ),
+            ItemDetailsPage(
+              data: listTem2,
+              title: 'Температура 2',
+            ),
+            ItemDetailsPage(
+              data: listPress,
+              title: 'Давление',
+            ),
+            // GraphCard(listTemp1),
+            // GraphCard(listHum),
+            // GraphCard(listHum1),
+            // GraphCard(listPress),
+            // GraphCard(listTem2),
           ],
         ),
       ),

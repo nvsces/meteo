@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:meteo/funs.dart';
 import 'package:meteo/sensor_data.dart';
 
 const axexPadding = 10.0;
@@ -7,37 +8,15 @@ const axexStart = 5.0;
 
 class GraphPainter extends CustomPainter {
   List<double> sensors;
-  //List<double> graphCurrent;
   GraphPainter(
     this.sensors,
-    // this.graphCurrent,
   );
-
-  // get listData {
-  //   List<double> graph = [];
-  //   sensors.forEach((element) {
-  //     graph.add(element.temp1);
-  //   });
-
-  //   return graph;
-  // }
 
   @override
   void paint(Canvas canvas, Size size) {
-    //paintSlider(canvas, size, graphCurrent.length, graphCopy.length);
     if (sensors.length > 0)
       paintGraph(canvas, size, sensors, sensors.length, Colors.blue);
-    // if (graphCurrent.length > 0)
-    //   paintGraph(canvas, size, graphCurrent, graphCopy.length, Colors.red);
-  }
-
-  void paintSlider(Canvas canvas, Size size, int count, int length) {
-    if (length == 0) length = 1;
-    var x = size.width * count / length;
-    var paint = Paint();
-    paint.color = Colors.black;
-    paint.strokeWidth = 3.0;
-    canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
+    ;
   }
 
   @override
@@ -97,6 +76,8 @@ class GraphPainter extends CustomPainter {
     graphAxex(canvas, size);
 
     List<double> paintData = copyList(data);
+    double minValue = serchMin(paintData);
+    paintData = normValue(paintData, minValue);
     paintData = normGraph(paintData);
 
     var paint = Paint()..color = color;
