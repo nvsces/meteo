@@ -5,11 +5,12 @@ class SensorData {
   double hum;
   double hum1;
   double pres;
-
+  String id;
   DateTime time;
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'temp': temp,
       'temp1': temp1,
       'temp2': temp2,
@@ -20,8 +21,9 @@ class SensorData {
     };
   }
 
-  SensorData.fromDatabase(String data) {
+  SensorData.fromDatabase(String data, String id) {
     List<String> listValue = data.split('q');
+    this.id = id;
     temp = double.parse(listValue[0]);
     temp1 = double.parse(listValue[1]);
     temp2 = double.parse(listValue[2]);
@@ -32,6 +34,7 @@ class SensorData {
   }
 
   SensorData.fromJson(Map<String, dynamic> data) {
+    id = data['id'];
     temp = data['temp'];
     temp1 = data['temp1'];
     temp2 = data['temp2'];

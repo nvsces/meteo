@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // import 'package:firebase_core/firebase_core.dart';
 // import 'package:firebase_database/firebase_database.dart';
@@ -17,7 +19,6 @@ Future<void> main() async {
   final FirebaseApp app = await Firebase.initializeApp();
   runApp(MaterialApp(
     home: MyHomePage(app: app),
-    //home: ItemDetailsPage(),
   ));
 }
 
@@ -33,6 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int count = 0;
   String text = 'value';
   List<SensorData> datas = [];
+  List<SensorData> traficData = [];
 
   List<TimeSeriesSales> get listTemp1 {
     List<TimeSeriesSales> graph = [];
@@ -54,7 +56,6 @@ class _MyHomePageState extends State<MyHomePage> {
     datas.forEach((element) {
       graph.add(TimeSeriesSales(element.time, element.hum));
     });
-
     return graph;
   }
 
@@ -94,31 +95,41 @@ class _MyHomePageState extends State<MyHomePage> {
     return graph;
   }
 
-  void read() {
-    final DatabaseReference db = FirebaseDatabase(
-            app: widget.app,
-            databaseURL:
-                'https://meteo-b3f03-default-rtdb.europe-west1.firebasedatabase.app/')
-        .reference()
-        .child('your_db_child');
-    var stream = db.onValue.listen((value) {
-      print('value->${value.snapshot.value}');
-      Map snapshot = value.snapshot.value;
-      var listMap = snapshot.values.toList();
+  void readFirestore() {
+    DatabaseService.getSensors().listen((event) {
       datas.clear();
       setState(() {
-        listMap.forEach((element) {
-          datas.add(SensorData.fromDatabase(element));
-        });
+        datas.addAll(event);
       });
-      // перенаправление трафика с realtimeDatabase -> CloudFirestore
-      DatabaseService.trafficRedirection(datas);
     });
+  }
+
+  void readRealTimeDatabase() {
+    if (!kIsWeb) {
+      final DatabaseReference db = FirebaseDatabase(
+              app: widget.app,
+              databaseURL:
+                  'https://meteo-b3f03-default-rtdb.europe-west1.firebasedatabase.app/')
+          .reference()
+          .child('your_db_child');
+      db.onValue.listen((value) {
+        Map snapshot = value.snapshot.value;
+        traficData.clear();
+        setState(() {
+          snapshot.forEach((key, value) {
+            traficData.add(SensorData.fromDatabase(value, key));
+          });
+        });
+        // перенаправление трафика с realtimeDatabase -> CloudFirestore
+        DatabaseService.trafficRedirection(traficData);
+      });
+    }
   }
 
   @override
   void initState() {
-    read();
+    readRealTimeDatabase();
+    readFirestore();
     super.initState();
   }
 
@@ -126,8 +137,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      //body: ItemDetailsPage(listTemp1),
-
       body: Container(
         child: ListView(
           children: [
@@ -158,21 +167,6 @@ class _MyHomePageState extends State<MyHomePage> {
             // GraphCard(listTem2),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.ac_unit),
-        onPressed: () {
-          count++;
-          print('click');
-          final DatabaseReference db = FirebaseDatabase(
-                  app: widget.app,
-                  databaseURL:
-                      'https://meteo-b3f03-default-rtdb.europe-west1.firebasedatabase.app/')
-              .reference()
-              .child('your_db_child');
-
-          db.push().set(generateData());
-        },
       ),
     );
   }
