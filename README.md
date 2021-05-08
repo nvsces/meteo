@@ -1,7 +1,10 @@
 # meteo
 
-A new Flutter project.
-
-## Getting Started
-
 Клиент для отображения метеоданных собранных с датчиков arduino.
+
+# Передача данных
+
+Данные поступают с arduino в FirebaseRealTimeDatabase. Данные считываются и отображаются на клиенте.
+
+# Платформы 
+Поддерживаемые платформы : Android, Web
