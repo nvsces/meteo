@@ -94,5 +94,39 @@
       loadMainDartJs();
     }
   </script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="/__/firebase/8.5.0/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="/__/firebase/8.5.0/firebase-analytics.js"></script>
+
+<!-- Initialize Firebase -->
+<script src="/__/firebase/init.js"></script>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-auth.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+  apiKey: "AIzaSyDaFD9rIi8fAzqn_7fZTf1UkLGUEytwOzg",
+  authDomain: "meteo-b3f03.firebaseapp.com",
+  databaseURL: "https://meteo-b3f03-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "meteo-b3f03",
+  storageBucket: "meteo-b3f03.appspot.com",
+  messagingSenderId: "411774325064",
+  appId: "1:411774325064:web:d913f8072d5b3ca8aba37d",
+  measurementId: "G-Z7STY93048"
+};
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+
+
 </body>
 </html>
