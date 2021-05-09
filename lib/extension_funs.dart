@@ -1,4 +1,4 @@
-import 'package:meteo/charts_simple.dart';
+import 'package:meteo/widgets/charts_simple.dart';
 import 'package:meteo/models/sensor_data.dart';
 
 extension sensorExtension on List<SensorData> {

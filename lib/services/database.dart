@@ -3,9 +3,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:meteo/models/sensor_data.dart';
 
+const databaseUrl =
+    'https://meteo-b3f03-default-rtdb.europe-west1.firebasedatabase.app/';
+
 class DatabaseService {
   static FirebaseApp _app;
   static DatabaseReference _db;
+  static bool isTrafficRedirection = false;
 
   static get db => _db;
 
@@ -13,10 +17,7 @@ class DatabaseService {
 
   static initializeApp(FirebaseApp app) {
     _app = app;
-    _db = FirebaseDatabase(
-            app: app,
-            databaseURL:
-                'https://meteo-b3f03-default-rtdb.europe-west1.firebasedatabase.app/')
+    _db = FirebaseDatabase(app: app, databaseURL: databaseUrl)
         .reference()
         .child('your_db_child');
   }
