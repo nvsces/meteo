@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:meteo/funs.dart';
 import 'package:meteo/widgets/charts_simple.dart';
 import 'package:meteo/models/sensor_data.dart';
@@ -13,6 +14,7 @@ import 'package:meteo/extension_funs.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  InAppPurchaseConnection.enablePendingPurchases();
   final FirebaseApp app = await Firebase.initializeApp();
   DatabaseService.initializeApp(app);
   runApp(MaterialApp(
@@ -90,26 +92,32 @@ class _MyHomePageState extends State<MyHomePage> {
             ItemDetailsPage(
               data: datas.listType(SensorData.typeTemp),
               title: 'Температура',
+              ylabel: 'Т,градусы',
             ),
             ItemDetailsPage(
               data: datas.listType(SensorData.typeTemp1),
               title: 'Температура 1',
+              ylabel: 'Т,градусы',
             ),
             ItemDetailsPage(
               data: datas.listType(SensorData.typeHum),
               title: 'Влажность',
+              ylabel: '%',
             ),
             ItemDetailsPage(
               data: datas.listType(SensorData.typeHum1),
               title: 'Влажность 2',
+              ylabel: '%',
             ),
             ItemDetailsPage(
               data: datas.listType(SensorData.typeTemp2),
               title: 'Температура 2',
+              ylabel: 'Т,градусы',
             ),
             ItemDetailsPage(
               data: datas.listType(SensorData.typePress),
               title: 'Давление',
+              ylabel: 'Миллиметры ртутного столба',
             ),
           ],
         ),

@@ -13,8 +13,9 @@ class TimeSeriesSales {
 }
 
 class ItemDetailsPage extends StatefulWidget {
-  ItemDetailsPage({this.data, this.title});
+  ItemDetailsPage({this.data, this.title, this.ylabel});
   String title;
+  String ylabel;
   List<TimeSeriesSales> data;
   @override
   _ItemDetailsPageState createState() => new _ItemDetailsPageState();
@@ -58,10 +59,20 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          new Text(
+          Text(
             widget.title,
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          chartWidget,
+          Row(
+            children: [
+              RotatedBox(
+                quarterTurns: 3,
+                child: Text(widget.ylabel),
+              ),
+              Expanded(child: chartWidget),
+            ],
+          ),
+          Text('Время'),
         ],
       ),
     );
