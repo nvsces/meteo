@@ -1,13 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:meteo/sensor_data.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:meteo/models/sensor_data.dart';
 
 class DatabaseService {
+  static FirebaseApp _app;
+  static DatabaseReference _db;
+
+  static get db => _db;
+
+  static get app => _app;
+
+  static initializeApp(FirebaseApp app) {
+    _app = app;
+    _db = FirebaseDatabase(
+            app: app,
+            databaseURL:
+                'https://meteo-b3f03-default-rtdb.europe-west1.firebasedatabase.app/')
+        .reference()
+        .child('your_db_child');
+  }
+
   static CollectionReference _authCollection =
       FirebaseFirestore.instance.collection('AUTH');
-
-  static Future addValue() async {
-    _authCollection.doc().set({'value': "1000"});
-  }
 
   static void trafficRedirection(List<SensorData> datas) {
     datas.forEach((element) async {

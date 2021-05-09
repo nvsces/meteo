@@ -9,91 +9,90 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:meteo/charts_simple.dart';
-import 'package:meteo/sensor_data.dart';
+import 'package:meteo/models/sensor_data.dart';
 import 'package:meteo/services/database.dart';
+import 'package:meteo/extension_funs.dart';
 
 import 'funs.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final FirebaseApp app = await Firebase.initializeApp();
+  DatabaseService.initializeApp(app);
   runApp(MaterialApp(
-    home: MyHomePage(app: app),
+    home: MyHomePage(),
   ));
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({this.app});
-  final FirebaseApp app;
+  MyHomePage();
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int count = 0;
-  String text = 'value';
   List<SensorData> datas = [];
   List<SensorData> traficData = [];
 
-  List<TimeSeriesSales> get listTemp1 {
-    List<TimeSeriesSales> graph = [];
-    datas.sort((a, b) {
-      return a.time.compareTo(b.time);
-    });
-    datas.forEach((element) {
-      graph.add(TimeSeriesSales(element.time, element.temp1));
-    });
+  // List<TimeSeriesSales> get listTemp1 {
+  //   List<TimeSeriesSales> graph = [];
+  //   datas.sort((a, b) {
+  //     return a.time.compareTo(b.time);
+  //   });
+  //   datas.forEach((element) {
+  //     graph.add(TimeSeriesSales(element.time, element.temp1));
+  //   });
 
-    return graph;
-  }
+  //   return graph;
+  // }
 
-  List<TimeSeriesSales> get listHum {
-    List<TimeSeriesSales> graph = [];
-    datas.sort((a, b) {
-      return a.time.compareTo(b.time);
-    });
-    datas.forEach((element) {
-      graph.add(TimeSeriesSales(element.time, element.hum));
-    });
-    return graph;
-  }
+  // List<TimeSeriesSales> get listHum {
+  //   List<TimeSeriesSales> graph = [];
+  //   datas.sort((a, b) {
+  //     return a.time.compareTo(b.time);
+  //   });
+  //   datas.forEach((element) {
+  //     graph.add(TimeSeriesSales(element.time, element.hum));
+  //   });
+  //   return graph;
+  // }
 
-  List<TimeSeriesSales> get listHum1 {
-    List<TimeSeriesSales> graph = [];
-    datas.sort((a, b) {
-      return a.time.compareTo(b.time);
-    });
-    datas.forEach((element) {
-      graph.add(TimeSeriesSales(element.time, element.hum1));
-    });
+  // List<TimeSeriesSales> get listHum1 {
+  //   List<TimeSeriesSales> graph = [];
+  //   datas.sort((a, b) {
+  //     return a.time.compareTo(b.time);
+  //   });
+  //   datas.forEach((element) {
+  //     graph.add(TimeSeriesSales(element.time, element.hum1));
+  //   });
 
-    return graph;
-  }
+  //   return graph;
+  // }
 
-  List<TimeSeriesSales> get listPress {
-    List<TimeSeriesSales> graph = [];
-    datas.sort((a, b) {
-      return a.time.compareTo(b.time);
-    });
-    datas.forEach((element) {
-      graph.add(TimeSeriesSales(element.time, element.pres));
-    });
+  // List<TimeSeriesSales> get listPress {
+  //   List<TimeSeriesSales> graph = [];
+  //   datas.sort((a, b) {
+  //     return a.time.compareTo(b.time);
+  //   });
+  //   datas.forEach((element) {
+  //     graph.add(TimeSeriesSales(element.time, element.pres));
+  //   });
 
-    return graph;
-  }
+  //   return graph;
+  // }
 
-  List<TimeSeriesSales> get listTem2 {
-    List<TimeSeriesSales> graph = [];
-    datas.sort((a, b) {
-      return a.time.compareTo(b.time);
-    });
-    datas.forEach((element) {
-      graph.add(TimeSeriesSales(element.time, element.temp2));
-    });
+  // List<TimeSeriesSales> get listTem2 {
+  //   List<TimeSeriesSales> graph = [];
+  //   datas.sort((a, b) {
+  //     return a.time.compareTo(b.time);
+  //   });
+  //   datas.forEach((element) {
+  //     graph.add(TimeSeriesSales(element.time, element.temp2));
+  //   });
 
-    return graph;
-  }
+  //   return graph;
+  // }
 
   void readFirestore() {
     DatabaseService.getSensors().listen((event) {
@@ -105,30 +104,23 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void readRealTimeDatabase() {
-    if (!kIsWeb) {
-      final DatabaseReference db = FirebaseDatabase(
-              app: widget.app,
-              databaseURL:
-                  'https://meteo-b3f03-default-rtdb.europe-west1.firebasedatabase.app/')
-          .reference()
-          .child('your_db_child');
-      db.onValue.listen((value) {
-        Map snapshot = value.snapshot.value;
-        traficData.clear();
-        setState(() {
-          snapshot.forEach((key, value) {
-            traficData.add(SensorData.fromDatabase(value, key));
-          });
+    var db = DatabaseService.db;
+    db.onValue.listen((value) {
+      Map snapshot = value.snapshot.value;
+      traficData.clear();
+      setState(() {
+        snapshot.forEach((key, value) {
+          traficData.add(SensorData.fromDatabase(value, key));
         });
-        // перенаправление трафика с realtimeDatabase -> CloudFirestore
-        DatabaseService.trafficRedirection(traficData);
       });
-    }
+      // перенаправление трафика с realtimeDatabase -> CloudFirestore
+      DatabaseService.trafficRedirection(traficData);
+    });
   }
 
   @override
   void initState() {
-    readRealTimeDatabase();
+    if (!kIsWeb) readRealTimeDatabase();
     readFirestore();
     super.initState();
   }
@@ -141,30 +133,29 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView(
           children: [
             ItemDetailsPage(
-              data: listTemp1,
+              data: datas.listType(SensorData.typeTemp),
               title: 'Температура',
             ),
             ItemDetailsPage(
-              data: listHum,
+              data: datas.listType(SensorData.typeTemp1),
+              title: 'Температура 1',
+            ),
+            ItemDetailsPage(
+              data: datas.listType(SensorData.typeHum),
               title: 'Влажность',
             ),
             ItemDetailsPage(
-              data: listHum1,
+              data: datas.listType(SensorData.typeHum1),
               title: 'Влажность 2',
             ),
             ItemDetailsPage(
-              data: listTem2,
+              data: datas.listType(SensorData.typeTemp2),
               title: 'Температура 2',
             ),
             ItemDetailsPage(
-              data: listPress,
+              data: datas.listType(SensorData.typePress),
               title: 'Давление',
             ),
-            // GraphCard(listTemp1),
-            // GraphCard(listHum),
-            // GraphCard(listHum1),
-            // GraphCard(listPress),
-            // GraphCard(listTem2),
           ],
         ),
       ),

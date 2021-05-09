@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meteo/sensor_data.dart';
+import 'package:meteo/models/sensor_data.dart';
 
 class CardData extends StatelessWidget {
   CardData(this.sensorData, {Key key}) : super(key: key);

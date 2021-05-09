@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meteo/funs.dart';
-import 'package:meteo/sensor_data.dart';
+import 'package:meteo/models/sensor_data.dart';
 
 const axexPadding = 10.0;
 const axexStart = 5.0;

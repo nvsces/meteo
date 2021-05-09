@@ -1,4 +1,11 @@
 class SensorData {
+  static const typeTemp = 0;
+  static const typeTemp1 = 1;
+  static const typeTemp2 = 2;
+  static const typeHum = 3;
+  static const typeHum1 = 4;
+  static const typePress = 5;
+
   double temp;
   double temp1;
   double temp2;
