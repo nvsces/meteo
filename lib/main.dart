@@ -114,10 +114,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   child: Icon(Icons.add),
-      //   onPressed: () => DatabaseService.db.push().set(generateData()),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => DatabaseService.db.push().set(generateData()),
+      ),
     );
   }
 }

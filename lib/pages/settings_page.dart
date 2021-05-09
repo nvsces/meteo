@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meteo/pages/market_screen.dart';
 import 'package:meteo/services/database.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -27,6 +28,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   DatabaseService.isTrafficRedirection = value;
                 });
               },
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (ctx) => MarketScreen()));
+              },
+              child: Text('Открыть MarketScreen'),
             ),
           ],
         ),

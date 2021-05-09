@@ -49,7 +49,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
     var chartWidget = new Padding(
       padding: new EdgeInsets.all(10),
       child: new SizedBox(
-        height: 400.0,
+        height: MediaQuery.of(context).size.height / 3,
         child: chart,
       ),
     );
