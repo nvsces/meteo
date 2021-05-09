@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:meteo/funs.dart';
 import 'package:meteo/widgets/charts_simple.dart';
 import 'package:meteo/models/sensor_data.dart';
 import 'package:meteo/pages/settings_page.dart';
@@ -112,6 +114,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   child: Icon(Icons.add),
+      //   onPressed: () => DatabaseService.db.push().set(generateData()),
+      // ),
     );
   }
 }

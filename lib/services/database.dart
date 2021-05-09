@@ -11,7 +11,7 @@ class DatabaseService {
   static DatabaseReference _db;
   static bool isTrafficRedirection = false;
 
-  static get db => _db;
+  static DatabaseReference get db => _db;
 
   static get app => _app;
 
@@ -25,13 +25,20 @@ class DatabaseService {
   static CollectionReference _authCollection =
       FirebaseFirestore.instance.collection('AUTH');
 
-  static void trafficRedirection(List<SensorData> datas) {
-    datas.forEach((element) async {
-      await _authCollection.doc(element.id).delete();
+  static void trafficRedirection(List<SensorData> datas) async {
+    List<SensorData> cashData = [];
+    cashData = await getSensors().firstWhere((List<SensorData> values) {
+      return true;
     });
-
-    datas.forEach((element) async {
-      await _authCollection.doc(element.id).set(element.toMap());
+    datas.forEach((element) {
+      bool isFind = false;
+      for (var el in cashData) {
+        if (el.id == element.id) isFind = true;
+      }
+      if (!isFind) {
+        print('id->${element.id}');
+        _authCollection.doc(element.id).set(element.toMap());
+      }
     });
   }
 
