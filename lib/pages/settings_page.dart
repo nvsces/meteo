@@ -1,5 +1,12 @@
+import 'dart:async';
+
+import 'package:animations/animations.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:meteo/models/arduino_simulyator.dart';
+import 'package:meteo/pages/arduino_sennings_page.dart';
 import 'package:meteo/pages/market_screen.dart';
+import 'package:meteo/pages/my_market.dart';
 import 'package:meteo/services/database.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -10,12 +17,17 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  //bool switchValue = false;
+  void _deleteRealTimeDataBase() => DatabaseService.deleteRealTimeDatabase();
+
+  void _deleteCloudFirestore() => DatabaseService.deleteCloudFirestore();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('Настройки'),
+      ),
       body: Container(
         child: Column(
           children: [
@@ -24,18 +36,61 @@ class _SettingsPageState extends State<SettingsPage> {
               value: DatabaseService.isTrafficRedirection,
               onChanged: (value) {
                 setState(() {
-                  //switchValue = value;
                   DatabaseService.isTrafficRedirection = value;
                 });
               },
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (ctx) => MarketScreen()));
+            ListTile(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ArduinoSettingPage()),
+                );
               },
-              child: Text('Открыть MarketScreen'),
+              title: const Text('Симулятор Ардуино'),
+              trailing: Transform.scale(
+                scale: 0.8,
+                child: CupertinoSwitch(
+                  value: ArduinoSimulyator.isActive,
+                  onChanged: (value) {
+                    setState(() {
+                      ArduinoSimulyator.isActive = value;
+                      if (value)
+                        ArduinoSimulyator.startTimer();
+                      else
+                        ArduinoSimulyator.stopTimer();
+                    });
+                  },
+                ),
+              ),
             ),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: ElevatedButton(
+                onPressed: _deleteRealTimeDataBase,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Text('Очистить RealTimeDatabase'),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: ElevatedButton(
+                onPressed: _deleteCloudFirestore,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Text('Очистить CloudFirestore'),
+                ),
+              ),
+            ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.push(
+            //         context, MaterialPageRoute(builder: (ctx) => MyMarket()));
+            //   },
+            //   child: Text('Открыть MarketScreen'),
+            // ),
           ],
         ),
       ),

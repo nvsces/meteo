@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
-final String testID = 'product_test';
+final String testID = 'subscription';
 
 class MarketScreen extends StatefulWidget {
   createState() => MarketScreenState();
@@ -16,13 +16,13 @@ class MarketScreenState extends State<MarketScreen> {
   /// The In App Purchase plugin
   InAppPurchaseConnection _iap = InAppPurchaseConnection.instance;
 
-  /// Products for sale
+  /// Продукты для продажи
   List<ProductDetails> _products = [];
 
-  /// Past purchases
+  /// Прошлые покупки
   List<PurchaseDetails> _purchases = [];
 
-  /// Updates to purchases
+  /// Обновления для покупок
   StreamSubscription _subscription;
 
   /// Consumable credits the user can buy
@@ -46,7 +46,7 @@ class MarketScreenState extends State<MarketScreen> {
   void _initialize() async {
     // ... omitted
 
-    // Listen to new purchases
+    // Слушайте новые покупки
     _subscription = _iap.purchaseUpdatedStream.listen((data) => setState(() {
           print(data);
           print('NEW PURCHASE');
@@ -77,10 +77,10 @@ class MarketScreenState extends State<MarketScreen> {
     _iap.buyConsumable(purchaseParam: purchaseParam, autoConsume: false);
   }
 
-  /// Get all products available for sale
+  /// Получите все продукты, доступные для продажи
   Future<void> _getProducts() async {
     //Set<String> ids = Set.from([testID, 'test_a']);
-    Set<String> ids = {testID, 'pr_1'};
+    Set<String> ids = {testID};
     ProductDetailsResponse response = await _iap.queryProductDetails(ids);
 
     setState(() {
@@ -89,7 +89,7 @@ class MarketScreenState extends State<MarketScreen> {
     });
   }
 
-  /// Gets past purchases
+  /// Получить прошлые покупки
   Future<void> _getPastPurchases() async {
     QueryPurchaseDetailsResponse response = await _iap.queryPastPurchases();
 
@@ -105,7 +105,7 @@ class MarketScreenState extends State<MarketScreen> {
     });
   }
 
-  /// Returns purchase of specific product ID
+  /// Возвращает покупку определенного идентификатора продукта
   bool _hasPurchased(String productID) {
     if (_purchases.isEmpty) {
       return false;
@@ -117,7 +117,7 @@ class MarketScreenState extends State<MarketScreen> {
     // );
   }
 
-  /// Your own business logic to setup a consumable
+  /// Ваша собственная бизнес-логика для настройки расходного материала
   void _verifyPurchase() {
     PurchaseDetails purchase =
         // _hasPurchased(testID);
@@ -126,7 +126,7 @@ class MarketScreenState extends State<MarketScreen> {
     );
     // TODO serverside verification & record consumable in the database
 
-    if (purchase != null && purchase.status == PurchaseStatus.purchased) {
+    if (purchase.status == PurchaseStatus.purchased) {
       _credits = 10;
     }
   }

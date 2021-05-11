@@ -25,6 +25,20 @@ class DatabaseService {
   static CollectionReference _authCollection =
       FirebaseFirestore.instance.collection('AUTH');
 
+  static void deleteRealTimeDatabase() {
+    _db.remove();
+  }
+
+  static void deleteCloudFirestore() async {
+    List<SensorData> deleteData =
+        await getSensors().firstWhere((List<SensorData> values) {
+      return true;
+    });
+    deleteData.forEach((element) async {
+      await _authCollection.doc(element.id).delete();
+    });
+  }
+
   static void trafficRedirection(List<SensorData> datas) async {
     List<SensorData> cashData = [];
     cashData = await getSensors().firstWhere((List<SensorData> values) {

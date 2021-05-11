@@ -73,58 +73,64 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (contex) => SettingsPage()),
-                );
-              },
-              icon: Icon(Icons.settings)),
-        ],
-      ),
-      body: Container(
-        child: ListView(
-          children: [
-            ItemDetailsPage(
-              data: datas.listType(SensorData.typeTemp),
-              title: 'Температура',
-              ylabel: 'Т,градусы',
-            ),
-            ItemDetailsPage(
-              data: datas.listType(SensorData.typeTemp1),
-              title: 'Температура 1',
-              ylabel: 'Т,градусы',
-            ),
-            ItemDetailsPage(
-              data: datas.listType(SensorData.typeHum),
-              title: 'Влажность',
-              ylabel: '%',
-            ),
-            ItemDetailsPage(
-              data: datas.listType(SensorData.typeHum1),
-              title: 'Влажность 2',
-              ylabel: '%',
-            ),
-            ItemDetailsPage(
-              data: datas.listType(SensorData.typeTemp2),
-              title: 'Температура 2',
-              ylabel: 'Т,градусы',
-            ),
-            ItemDetailsPage(
-              data: datas.listType(SensorData.typePress),
-              title: 'Давление',
-              ylabel: 'Миллиметры ртутного столба',
-            ),
+    return RefreshIndicator(
+      onRefresh: () async {
+        setState(() {});
+      },
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (contex) => SettingsPage()),
+                  );
+                },
+                icon: Icon(Icons.settings)),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => DatabaseService.db.push().set(generateData()),
+        body: Container(
+          child: ListView(
+            children: [
+              ItemDetailsPage(
+                data: datas.listType(SensorData.typeTemp),
+                title: 'Температура',
+                ylabel: 'Т,градусы',
+              ),
+              ItemDetailsPage(
+                data: datas.listType(SensorData.typeTemp1),
+                title: 'Температура 1',
+                ylabel: 'Т,градусы',
+              ),
+              ItemDetailsPage(
+                data: datas.listType(SensorData.typeHum),
+                title: 'Влажность',
+                ylabel: '%',
+              ),
+              ItemDetailsPage(
+                data: datas.listType(SensorData.typeHum1),
+                title: 'Влажность 2',
+                ylabel: '%',
+              ),
+              ItemDetailsPage(
+                data: datas.listType(SensorData.typeTemp2),
+                title: 'Температура 2',
+                ylabel: 'Т,градусы',
+              ),
+              ItemDetailsPage(
+                data: datas.listType(SensorData.typePress),
+                title: 'Давление',
+                ylabel: 'Миллиметры ртутного столба',
+              ),
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () => DatabaseService.db.push().set(generateData()),
+        ),
       ),
     );
   }
