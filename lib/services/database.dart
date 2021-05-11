@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:meteo/models/sensor_data.dart';
+import 'package:meteo/models/user.dart';
 
 const databaseUrl =
     'https://meteo-b3f03-default-rtdb.europe-west1.firebasedatabase.app/';
@@ -11,22 +12,21 @@ class DatabaseService {
   static DatabaseReference _db;
   static bool isTrafficRedirection = false;
 
-  static DatabaseReference get db => _db;
+  static DatabaseReference get db => _db.child(User.id);
 
   static get app => _app;
 
   static initializeApp(FirebaseApp app) {
     _app = app;
-    _db = FirebaseDatabase(app: app, databaseURL: databaseUrl)
-        .reference()
-        .child('your_db_child');
+    _db = FirebaseDatabase(app: app, databaseURL: databaseUrl).reference();
+    // .child('yout');
   }
 
   static CollectionReference _authCollection =
-      FirebaseFirestore.instance.collection('AUTH');
+      FirebaseFirestore.instance.collection(User.id);
 
   static void deleteRealTimeDatabase() {
-    _db.remove();
+    _db.child(User.id).remove();
   }
 
   static void deleteCloudFirestore() async {

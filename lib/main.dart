@@ -6,20 +6,28 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:meteo/funs.dart';
+import 'package:meteo/pages/landing_page.dart';
+import 'package:meteo/services/auth.dart';
 import 'package:meteo/widgets/charts_simple.dart';
 import 'package:meteo/models/sensor_data.dart';
 import 'package:meteo/pages/settings_page.dart';
 import 'package:meteo/services/database.dart';
 import 'package:meteo/extension_funs.dart';
+import 'package:provider/provider.dart';
+
+import 'models/user.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   InAppPurchaseConnection.enablePendingPurchases();
   final FirebaseApp app = await Firebase.initializeApp();
   DatabaseService.initializeApp(app);
-  runApp(MaterialApp(
-    home: MyHomePage(),
-  ));
+  runApp(
+    MaterialApp(
+      home: StreamProvider<User>.value(
+          value: AuthService().currentUser, child: LandingPage()),
+    ),
+  );
 }
 
 class MyHomePage extends StatefulWidget {

@@ -1,12 +1,10 @@
-import 'dart:async';
-
-import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meteo/models/arduino_simulyator.dart';
 import 'package:meteo/pages/arduino_sennings_page.dart';
 import 'package:meteo/pages/market_screen.dart';
 import 'package:meteo/pages/my_market.dart';
+import 'package:meteo/services/auth.dart';
 import 'package:meteo/services/database.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -25,6 +23,14 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+                AuthService().logOut();
+              },
+              icon: Icon(Icons.exit_to_app)),
+        ],
         centerTitle: true,
         title: Text('Настройки'),
       ),
