@@ -34,13 +34,16 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
       )
     ];
 
-    var chart = new charts.TimeSeriesChart(
+    var chart = charts.TimeSeriesChart(
       series,
-      domainAxis: new charts.DateTimeAxisSpec(
-        tickFormatterSpec: new charts.AutoDateTimeTickFormatterSpec(
-          day: new charts.TimeFormatterSpec(
-            format: 'mm',
-            //transitionFormat: 'mm ss',
+      domainAxis:
+          // charts.EndPointsTimeAxisSpec(
+          // ),
+          charts.DateTimeAxisSpec(
+        tickFormatterSpec: charts.AutoDateTimeTickFormatterSpec(
+          day: charts.TimeFormatterSpec(
+            format: 'ss',
+            transitionFormat: 'ss',
           ),
         ),
       ),

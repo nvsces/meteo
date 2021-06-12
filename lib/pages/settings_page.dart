@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meteo/models/arduino_simulyator.dart';
 import 'package:meteo/pages/arduino_sennings_page.dart';
-import 'package:meteo/pages/market_screen.dart';
-import 'package:meteo/pages/my_market.dart';
 import 'package:meteo/services/auth.dart';
 import 'package:meteo/services/database.dart';
 
@@ -90,13 +88,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
             ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     Navigator.push(
-            //         context, MaterialPageRoute(builder: (ctx) => MyMarket()));
-            //   },
-            //   child: Text('Открыть MarketScreen'),
-            // ),
           ],
         ),
       ),

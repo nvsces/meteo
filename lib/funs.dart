@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:fluttertoast/fluttertoast.dart';
+
 String generateData() {
   var random = Random();
   int scale = 50;
@@ -11,6 +13,19 @@ String generateData() {
   double pres = random.nextDouble() * scale;
 
   return "${temp}q${temp1}q${temp2}q${hum}q${hum1}q${pres}q${DateTime.now()}";
+}
+
+double randomToRange({double randomValue, double min, double max}) {
+  return min + randomValue * (max - min);
+}
+
+void showToast(String message) {
+  Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      fontSize: 16.0);
 }
 
 double serchMin(List<double> data) {

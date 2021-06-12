@@ -3,24 +3,65 @@ import 'dart:math';
 
 import 'package:meteo/services/database.dart';
 
+import '../funs.dart';
+
 class ArduinoSimulyator {
   static bool isActive = false;
-  static double distanceTemp = 20;
-  static double distanceTemp1 = 20;
-  static double distanceTemp2 = 20;
-  static double distanceHum = 20;
-  static double distanceHum1 = 20;
-  static double distancePres = 760;
   static Timer timer;
+
+  static int periodicTimer = 10;
+
+  static List<double> _rangeGenerateValues = [
+    20,
+    25,
+    60,
+    80,
+    20,
+    25,
+    60,
+    80,
+    20,
+    25,
+    750,
+    770,
+  ];
+
+  static setRangeGenerateValues(List<double> data) {
+    _rangeGenerateValues = data;
+  }
 
   static generatedValue() {
     var random = Random();
-    double temp = random.nextDouble() * distanceTemp;
-    double temp1 = random.nextDouble() * distanceTemp1;
-    double temp2 = random.nextDouble() * distanceTemp2;
-    double hum = random.nextDouble() * distanceHum;
-    double hum1 = random.nextDouble() * distanceHum1;
-    double pres = random.nextDouble() * distancePres;
+    double temp = randomToRange(
+      randomValue: random.nextDouble(),
+      min: _rangeGenerateValues[0],
+      max: _rangeGenerateValues[1],
+    );
+    double temp1 = randomToRange(
+      randomValue: random.nextDouble(),
+      min: _rangeGenerateValues[2],
+      max: _rangeGenerateValues[3],
+    );
+    double temp2 = randomToRange(
+      randomValue: random.nextDouble(),
+      min: _rangeGenerateValues[4],
+      max: _rangeGenerateValues[5],
+    );
+    double hum = randomToRange(
+      randomValue: random.nextDouble(),
+      min: _rangeGenerateValues[6],
+      max: _rangeGenerateValues[7],
+    );
+    double hum1 = randomToRange(
+      randomValue: random.nextDouble(),
+      min: _rangeGenerateValues[8],
+      max: _rangeGenerateValues[9],
+    );
+    double pres = randomToRange(
+      randomValue: random.nextDouble(),
+      min: _rangeGenerateValues[10],
+      max: _rangeGenerateValues[11],
+    );
 
     return "${temp}q${temp1}q${temp2}q${hum}q${hum1}q${pres}q${DateTime.now()}";
   }
